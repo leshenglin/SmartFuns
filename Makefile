@@ -55,7 +55,7 @@ flash: all
 	./do_flash.pl $(TOP)/main.bin
 
 update:
-	openocd -f /usr/share/openocd/scripts/interface/jlink.cfg  -f /usr/share/openocd/scripts/target/stm32f4x.cfg -c init -c halt -c "flash write_image erase /home/sea/gitworkspace/Stm32F4DiscoveryGCC/main.hex" # -c reset -c  shutdown
+	JLinkExe -Device STM32F103VE -Speed 4000 -If SWD JlinkScript
 
 gdb:
 	$(GDB) -iex "target remote localhost:3333" -iex 'monitor reset' -iex 'monitor halt' -iex 'load main.elf' -iex 'b main.c:main' -iex 'b sdcard.c:1651' main.elf

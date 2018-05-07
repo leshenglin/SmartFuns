@@ -8,7 +8,7 @@ BUILD_DIR = build
 OBJS = $(BUILD_DIR)/*.o
 
 TEST = USART
-#TEST += LED
+TEST += LED
 
 
 .PHONY: $(TEST)

@@ -10,8 +10,8 @@
 
 //#define LedRed    GPIO_Pin_9
 //#define LedGreen  GPIO_Pin_10
-#define LEDRED    GPIO_Pin_9
-#define LEDGREEN  GPIO_Pin_10
+#define LEDRED    GPIO_Pin_8
+#define LEDGREEN  GPIO_Pin_9
 
 
 #define LedStatus_ON   0

@@ -40,28 +40,28 @@ void LedRollBack( u16 pin )
 void LedInit( LED* led )
 {
 	GPIO_InitTypeDef GPIO_InitStructure;
-	RCC_AHB2PeriphClockCmd(RCC_AHB2Periph_GPIOB, ENABLE);  //Only support the GPIOF as OutPut
+	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOD, ENABLE);  //Only support the GPIOF as OutPut
 	GPIO_InitStructure.GPIO_Pin = (*led).pin;
-	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;
-	GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
-	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_100MHz;
-	GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP;
-	GPIO_Init(GPIOB, &GPIO_InitStructure);
+	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
+	//GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
+	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+	//GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP;
+	GPIO_Init(GPIOD, &GPIO_InitStructure);
 	
-	GPIO_SetBits(GPIOB, (*led).pin );
+	GPIO_ResetBits(GPIOD, (*led).pin );
 }
 
 void SetValue( LED* led, u8 value )
 {
 	if(value == LedStatus_ON)
-		GPIO_ResetBits( GPIOF, (*led).pin );
+		GPIO_ResetBits( GPIOD, (*led).pin );
 	else if( value == LedStatus_OFF )
-		GPIO_SetBits( GPIOF, (*led).pin );
+		GPIO_SetBits( GPIOD, (*led).pin );
 }
 
 u8 GetLedStatus( LED* led )
 {
-	return GPIO_ReadOutputDataBit( GPIOF, (*led).pin );
+	return GPIO_ReadOutputDataBit( GPIOD, (*led).pin );
 }
 
 void LedOn( LED* led )

@@ -1,9 +1,8 @@
 #include "hardwareinit.h"
-//#include "led.h"
+#include "led.h"
 //#include "usart.h"
 #include "delay.h"
 
-#if 0
 void LED_Init( void )
 {
 
@@ -28,6 +27,7 @@ void LED_Init( void )
 	LedGreen.LedInit( &LedGreen );
 }
 
+#if 0
 void BEEP_INIT( void )
 {
 	Beep.BeepInit = BeepInit ;
@@ -44,10 +44,10 @@ void BEEP_INIT( void )
 void HardInit( void )
 {
 	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);
-	delay_init( 168 );
+	delay_init( 72 );
 //	uart_init( 115200 );
 
-//	LED_Init( );
+	LED_Init( );
 
 }
 
