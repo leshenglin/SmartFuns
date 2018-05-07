@@ -1,10 +1,10 @@
 # libs Makefile
 include ../Makefile.common
-LIBS+=libstm32.a
+LIBS+=libstm32stdlib.a
 CFLAGSlib+=-c
 all: libs
 libs: $(LIBS)
-libstm32.a:
+$(LIBS):
 	@echo -n "Building $@ ..."
 	@cd $(STMLIB)/CMSIS && \
 		$(CC) $(CFLAGSlib) \

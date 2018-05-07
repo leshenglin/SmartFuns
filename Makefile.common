@@ -49,7 +49,7 @@ GDB=$(TC)-gdb
 
 INCLUDE=-I$(TOP)/inc
 INCLUDE+=-I$(STMLIB)/CMSIS
-INCLUDE+=-I$(STMLIB)/CMSIS/Device/ST/STM32F4xx/Include
+INCLUDE+=-I$(STMLIB)/inc
 INCLUDE+=-I$(STMLIB)/CMSIS/Device/ST/STM32F4xx/Source/Templates
 INCLUDE+=-I$(STMLIB)/STM32F4xx_StdPeriph_Driver/inc
 #INCLUDE+=-I$(STMLIB)/STM32_USB-FS-Device_Driver/inc
