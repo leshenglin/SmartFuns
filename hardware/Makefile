@@ -9,6 +9,7 @@ OBJS = $(BUILD_DIR)/*.o
 
 TEST = USART
 TEST += LED
+TEST += PWMMOTOR
 
 
 .PHONY: $(TEST)
@@ -100,6 +101,9 @@ MALLOC:
 
 SDCARD:
 	make -C SDCARD 
+
+PWMMOTOR:
+	make -C PWMMOTOR 
 
 #END
 $(OBJS): | $(BUILD_DIR)

@@ -2,30 +2,8 @@
 #include "led.h"
 //#include "usart.h"
 #include "delay.h"
+#include "motor.h"
 
-void LED_Init( void )
-{
-
-	LedRed.pin = LEDRED;
-    LedRed.LedInit = LedInit;
-    LedRed.LedON = LedOn;
-    LedRed.LedOFF = LedOff;
-    LedRed.SetValue = SetValue;
-    LedRed.GetLedStatus = GetLedStatus;
-    LedRed.LedBlink = LedBlink;
-    LedRed.LedRollBack = LedRollBack;
-	LedRed.LedInit( &LedRed );
-
-	LedGreen.pin = LEDGREEN;
-    LedGreen.LedInit = LedInit;
-    LedGreen.LedON = LedOn;
-    LedGreen.LedOFF = LedOff;
-    LedGreen.SetValue = SetValue;
-    LedGreen.GetLedStatus = GetLedStatus;
-    LedGreen.LedBlink = LedBlink;
-    LedGreen.LedRollBack = LedRollBack;
-	LedGreen.LedInit( &LedGreen );
-}
 
 #if 0
 void BEEP_INIT( void )
@@ -48,6 +26,7 @@ void HardInit( void )
 //	uart_init( 115200 );
 
 	LED_Init( );
+	pwmMotorInit( );
 
 }
 

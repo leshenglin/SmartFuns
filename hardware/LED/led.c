@@ -5,206 +5,92 @@
 #include "delay.h"
 #include "usart.h"
 
-/*
-void LedON( u16 pin )
-{
-	GPIO_ResetBits(GPIOF, pin);
-}
-
-void LedOFF( u16 pin )
-{
-	GPIO_SetBits(GPIOF, pin);
-}
-
-void LedBlink( u16 pin )
-{
-	LedON( pin );
-	delay_ms( 1000 );
-	LedOFF( pin );
-	delay_ms( 1000 );
-}
-
-u8 GetLedStatus( u16 pin )
-{
-	return GPIO_ReadOutputDataBit(GPIOF, pin);
-}
-
-void LedRollBack( u16 pin )
-{
-	(GetLedStatus(pin) == LedStatus_ON)? LedOFF(pin) : LedON(pin) ;
-}
-*/
+#if 0
+static void LedInit( LED* led );
+static void LedOn( LED* led );
+static void LedOff( LED* led );
+static void SetValue( LED* led, u8 value );
+static u8 GetLedStatus( LED* led );
+static void LedBlink( LED*led, u16 time );
+static void LedRollBack( LED* led );
+#endif
 
 
-
-void LedInit( LED* led )
+static void ledInit( LED* led )
 {
 	GPIO_InitTypeDef GPIO_InitStructure;
 	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOD, ENABLE);  //Only support the GPIOF as OutPut
-	GPIO_InitStructure.GPIO_Pin = (*led).pin;
+	GPIO_InitStructure.GPIO_Pin = led->pin;
 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
 	//GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
 	//GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP;
 	GPIO_Init(GPIOD, &GPIO_InitStructure);
 	
-	GPIO_ResetBits(GPIOD, (*led).pin );
+	GPIO_ResetBits(GPIOD, led->pin );
 }
 
-void SetValue( LED* led, u8 value )
+static void setValue( LED* led, u8 value )
 {
 	if(value == LedStatus_ON)
-		GPIO_ResetBits( GPIOD, (*led).pin );
+		GPIO_ResetBits( GPIOD, led->pin );
 	else if( value == LedStatus_OFF )
-		GPIO_SetBits( GPIOD, (*led).pin );
+		GPIO_SetBits( GPIOD, led->pin );
 }
 
-u8 GetLedStatus( LED* led )
+static u8 getLedStatus( LED* led )
 {
-	return GPIO_ReadOutputDataBit( GPIOD, (*led).pin );
+	return GPIO_ReadOutputDataBit( GPIOD, led->pin );
 }
 
-void LedOn( LED* led )
+static void ledOn( LED* led )
 {
-	(*led).SetValue( led, LedStatus_ON );
+	led->SetValue( led, LedStatus_ON );
 }
 
-void LedOff( LED* led )
+static void ledOff( LED* led )
 {
-	(*led).SetValue( led, LedStatus_OFF );
+	led->SetValue( led, LedStatus_OFF );
 }
 
-void LedBlink( LED* led, u16 time )
+static void ledBlink( LED* led, u16 time )
 {
-	(*led).LedON( led );
+	led->LedON( led );
 	delay_ms( time );
-	(*led).LedOFF( led );
+	led->LedOFF( led );
 	delay_ms( time );
 }
 
-void LedRollBack( LED* led )
+static void ledRollBack( LED* led )
 {
-	((*led).GetLedStatus(led) == LedStatus_ON) ? (*led).LedOFF(led) : (*led).LedON(led);
+	(led->GetLedStatus(led) == LedStatus_ON) ? led->LedOFF(led) : led->LedON(led);
 }
 
 
 LED LedRed;
 LED LedGreen;
 
-
-
-
-
-#if 0
-void LedInitRed( void )
+void LED_Init( void )
 {
-	GPIO_InitTypeDef GPIO_InitStructure;
-	RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOF, ENABLE);  //Only support the GPIOF as OutPut
-	GPIO_InitStructure.GPIO_Pin = LEDRED;
-	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;
-	GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
-	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_100MHz;
-	GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP;
-	GPIO_Init(GPIOF, &GPIO_InitStructure);
-	
-	GPIO_SetBits(GPIOF, LEDRED );
+	LedRed.pin = LEDRED;
+    LedRed.LedInit = ledInit;
+    LedRed.LedON = ledOn;
+    LedRed.LedOFF = ledOff;
+    LedRed.SetValue = setValue;
+    LedRed.GetLedStatus = getLedStatus;
+    LedRed.LedBlink = ledBlink;
+    LedRed.LedRollBack = ledRollBack;
+	LedRed.LedInit( &LedRed );
+
+	LedGreen.pin = LEDGREEN;
+    LedGreen.LedInit = ledInit;
+    LedGreen.LedON = ledOn;
+    LedGreen.LedOFF = ledOff;
+    LedGreen.SetValue = setValue;
+    LedGreen.GetLedStatus = getLedStatus;
+    LedGreen.LedBlink = ledBlink;
+    LedGreen.LedRollBack = ledRollBack;
+	LedGreen.LedInit( &LedGreen );
 }
-
-void SetValueLedRed ( u8 value )
-{
-	if(value == LedStatus_ON)
-		GPIO_ResetBits( GPIOF, LEDRED );
-	else if( value == LedStatus_OFF )
-		GPIO_SetBits( GPIOF, LEDRED );
-}
-
-u8 GetLedStatusRed ( void )
-{
-	return GPIO_ReadOutputDataBit( GPIOF, LEDRED );
-}
-
-void LedOnRed( void )
-{
-	SetValueLedRed( LedStatus_ON );
-}
-
-void LedOffRed( void )
-{
-	SetValueLedRed( LedStatus_OFF );
-}
-
-void LedBlinkRed( u16 time )
-{
-	LedOnRed( );
-	delay_ms( time );
-	LedOffRed( );
-	delay_ms( time );
-}
-
-void LedRollBackRed( void )
-{
-	(GetLedStatusRed() == LedStatus_ON) ? LedOffRed() : LedOnRed();
-}
-
-
-
-
-
-
-void LedInitGreen( void )
-{
-	GPIO_InitTypeDef GPIO_InitStructure;
-	RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOF, ENABLE);  //Only support the GPIOF as OutPut
-	GPIO_InitStructure.GPIO_Pin = LEDGREEN;
-	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;
-	GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
-	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_100MHz;
-	GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP;
-	GPIO_Init(GPIOF, &GPIO_InitStructure);
-	
-	GPIO_SetBits(GPIOF, LEDGREEN );
-}
-
-void SetValueLedGreen ( u8 value )
-{
-	if(value == LedStatus_ON)
-		GPIO_ResetBits( GPIOF, LEDGREEN );
-	else if( value == LedStatus_OFF )
-		GPIO_SetBits( GPIOF, LEDGREEN );
-}
-
-u8 GetLedStatusGreen ( void )
-{
-	return GPIO_ReadOutputDataBit( GPIOF, LEDGREEN );
-}
-
-void LedOnGreen( void )
-{
-	SetValueLedGreen( LedStatus_ON );
-}
-
-void LedOffGreen( void )
-{
-	SetValueLedGreen( LedStatus_OFF );
-}
-
-void LedBlinkGreen( u16 time )
-{
-	LedOnGreen( );
-	delay_ms( time );
-	LedOffGreen( );
-	delay_ms( time );
-}
-
-void LedRollBackGreen( void )
-{
-	(GetLedStatusGreen() == LedStatus_ON) ? LedOffGreen() : LedOnGreen();
-}
-
-
-#endif
-
-
-
 
 

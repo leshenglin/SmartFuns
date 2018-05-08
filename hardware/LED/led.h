@@ -38,45 +38,8 @@ typedef struct _LED{
 
 extern LED LedRed;
 extern LED LedGreen;
-//void LED_Init_G( void );
 
-
-
-void LedInit( LED* led );
-void LedOn( LED* led );
-void LedOff( LED* led );
-void SetValue( LED* led, u8 value );
-u8 GetLedStatus( LED* led );
-void LedBlink( LED*led, u16 time );
-void LedRollBack( LED* led );
-
-
-/*
-void LedInitRed( void );
-void LedOnRed( void );
-void LedOffRed( void );
-void SetValueLedRed( u8 value );
-u8 GetLedStatusRed( void );
-void LedBlinkRed( u16 time );
-void LedRollBackRed( void );
-
-void LedInitGreen( void );
-void LedOnGreen( void );
-void LedOffGreen( void );
-void SetValueLedGreen( u8 value );
-u8 GetLedStatusGreen( void );
-void LedBlinkGreen( u16 time );
-void LedRollBackGreen( void );
-*/
-
-/*
-void LedInit( u16 pin );
-void LedON( u16 pin );
-void LedOFF( u16 pin );
-void LedBlink( u16 pin );
-u8   GetLedStatus( u16 pin );
-void LedRollBack( u16 pin );
-*/
+void LED_Init( void );
 
 
 #endif
