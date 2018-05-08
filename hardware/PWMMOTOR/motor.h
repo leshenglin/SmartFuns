@@ -53,6 +53,8 @@ typedef struct{
 	void (*enable) ( FANENABLE en );
 	void (*setDirection) ( FANDIRECT direct );
 	void (*setSpeed) ( u8 speed );
+	void (*start) ( void );
+	void (*stop) ( void );
 }Motor;
 
 extern Motor PwmMotor;

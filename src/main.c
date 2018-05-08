@@ -14,13 +14,15 @@ int main(int argc, char *argv[])
 	u8 speed = 0;
 	HardInit( );
 
+	PwmMotor.start( );
+
 	while(1)
 	{
 		//LedBlink( &LedGreen, 500 );
 		//LedRollBack( &LedGreen );
 		LedGreen.LedRollBack( &LedGreen );
 		delay_ms(500);
-		PwmMotor.enable( ENABLEMOTOR );
+		//PwmMotor.enable( ENABLEMOTOR );
 		PwmMotor.setSpeed( (speed++)%100 );
 	}
 }
