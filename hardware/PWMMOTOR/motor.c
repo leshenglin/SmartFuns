@@ -73,11 +73,21 @@ static void pwmTimeInit( u16 arr, u16 psc )
 	
 }
 
+/* --------------------------------------------------------------------------*/
+/**
+* @Synopsis  PWM输出使能
+*/
+/* ----------------------------------------------------------------------------*/
 static void pwmOutEnable( void )
 {
 	TIM_Cmd(TIM3, ENABLE); 
 }
 
+/* --------------------------------------------------------------------------*/
+/**
+* @Synopsis  PWM输出禁止
+*/
+/* ----------------------------------------------------------------------------*/
 static void pwmOutDisable( void )
 {
 	TIM_Cmd(TIM3, DISABLE); 
@@ -97,11 +107,25 @@ static void pwmOCInit( void )
 	TIM_OC2PreloadConfig(TIM3, TIM_OCPreload_Enable); //使能预装载寄存器  
 }
 
+/* --------------------------------------------------------------------------*/
+/**
+* @Synopsis  设置PWM频率
+*
+* @Param fre 设置的频率
+*/
+/* ----------------------------------------------------------------------------*/
 static void pwmSetFre( u16 fre )
 {
 	TIM_PrescalerConfig(TIM3, fre, TIM_PSCReloadMode_Immediate);	
 }
 
+/* --------------------------------------------------------------------------*/
+/**
+* @Synopsis  设置PWM占空比
+*
+* @Param num 占空比的数值
+*/
+/* ----------------------------------------------------------------------------*/
 static void pwmSetDuty( u16 num )
 {
 	TIM_SetCompare2( TIM3, num );
@@ -225,17 +249,28 @@ static void motorInit( u16 pinPwm, u16 pinEnable, u16 pinDirection )
 	motorSetSpeed( 0 );
 }
 
+/* --------------------------------------------------------------------------*/
+/**
+* @Synopsis  电机启动
+*/
+/* ----------------------------------------------------------------------------*/
 static void motorStart( void )
 {
 	motorEnable( ENABLEMOTOR );
 	pwmOutEnable( );
 }
 
+/* --------------------------------------------------------------------------*/
+/**
+* @Synopsis  电机停止
+*/
+/* ----------------------------------------------------------------------------*/
 static void motorStop( void )
 {
 	motorEnable( DISABLEMOTOR );
 	pwmOutDisable( );
 }
+
 /* --------------------------------------------------------------------------*/
 /**
 * @Synopsis  实例化一个PWM 电机
@@ -256,10 +291,10 @@ void pwmMotorInit( void )
 {
 	PwmMotor.init = motorInit;
 	PwmMotor.enable = motorEnable;
-	PwmMotor.start = motorStart;
-	PwmMotor.stop = motorStop;
 	PwmMotor.setDirection = motorSetDirection;
 	PwmMotor.setSpeed = motorSetSpeed;
+	PwmMotor.start = motorStart;
+	PwmMotor.stop = motorStop;
 	PwmMotor.init( MOTORPINPWM, MOTORPINENABLE, MOTORPINDIRECTION );
 }
 
