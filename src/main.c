@@ -18,12 +18,11 @@ int main(int argc, char *argv[])
 
 	while(1)
 	{
-		//LedBlink( &LedGreen, 500 );
-		//LedRollBack( &LedGreen );
 		LedGreen.LedRollBack( &LedGreen );
 		delay_ms(500);
-		//PwmMotor.enable( ENABLEMOTOR );
-		PwmMotor.setSpeed( (speed++)%100 );
+		speed += 10;
+		PwmMotor.setSpeed( (speed)%100 );
+
 	}
 }
 

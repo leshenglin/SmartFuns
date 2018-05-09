@@ -211,7 +211,7 @@ static void motorSetDirection( FANDIRECT direct )
 {
 	if( ACW == direct )
 		GPIO_ResetBits(GPIOB, MOTORPINDIRECTION );
-	else if( CCW == direct )
+	if( CCW == direct )
 		GPIO_SetBits(GPIOB, MOTORPINDIRECTION );
 }
 
