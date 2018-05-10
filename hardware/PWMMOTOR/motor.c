@@ -30,7 +30,16 @@
 #include "stm32f10x_gpio.h"
 
 
-#define    MAXDUTY 	899
+/* 
+* 3  - 20K Hz 没有异响 
+* 7  - 10K Hz 低转速时有细微的异响，不明显
+* 19 - 4K  Hz
+* 79 - 1K  Hz 低转速时异响比较大
+*/
+//#define    MAXDUTY 	899
+//#define    MAXPREC 	79		//这样频率在10K左右，比较好
+#define    MAXDUTY 	1799
+#define    MAXPREC 	1		//这样频率在20K左右，比较好
 
 
 /* --------------------------------------------------------------------------*/
@@ -55,8 +64,12 @@ static void pwmGpioInit( u16 pin )
 /* --------------------------------------------------------------------------*/
 /**
 * @Synopsis  对Pwm的引脚Time功能初始化,包括周期和分频,PB5 对应的Time3 
+* Tout= ((arr+1)*(psc+1))/Tclk； 
+* 其中： 
+* Tclk： TIM3 的输入时钟频率（单位为 Mhz）。 
+* Tout： TIM3 溢出时间（单位为 us）
 *
-* @Param arr 设置在自动重装载周期值,72000/900=8Khz
+* @Param arr 设置在自动重装载周期值,72000000/900=80Khz
 * @Param psc 设置预分频值 不分频
 */
 /* --------------------------------------------------------------------------*/
@@ -140,7 +153,7 @@ static void pwmSetDuty( u16 num )
 static void pwmInit( u16 pin )
 {
 	pwmGpioInit( pin );
-	pwmTimeInit( MAXDUTY, 0 );
+	pwmTimeInit( MAXDUTY, MAXPREC );
 	pwmOCInit( );
 }
 
@@ -224,8 +237,11 @@ static void motorSetDirection( FANDIRECT direct )
 /* ----------------------------------------------------------------------------*/
 static void motorSetSpeed ( u8 speed )
 {
-	u32 tmp = speed;
-	tmp = tmp*MAXDUTY/100;
+	if(speed>100)
+		speed = speed%100;
+	//pwmSetFre( MAXPREC - speed );
+	float tmp = speed/100.0;
+	tmp = tmp*MAXDUTY;
 	pwmSetDuty( (u16) tmp);
 }
 

@@ -21,12 +21,16 @@ int main(int argc, char *argv[])
 	{
 		LedGreen.LedRollBack( &LedGreen );
 		delay_ms(500);
-		speed = tmp?speed-1:speed+1;
-		if(speed>97)
+#if 1
+		speed = tmp?(speed-5):(speed+5);
+		if(speed>93)
 			tmp = 1;
-		if(speed<2)
+		if(speed<7)
 			tmp = 0;
-		PwmMotor.setSpeed( (speed)%100 );
+		PwmMotor.setSpeed( (speed)%101 );
+#endif
+	//	PwmMotor.setSpeed( 100 );  
+
 
 	}
 }
