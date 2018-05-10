@@ -12,6 +12,7 @@ static void delayGuo( int num )
 int main(int argc, char *argv[])
 {
 	u8 speed = 0;
+	u8 tmp = 0;
 	HardInit( );
 
 	PwmMotor.start( );
@@ -20,7 +21,11 @@ int main(int argc, char *argv[])
 	{
 		LedGreen.LedRollBack( &LedGreen );
 		delay_ms(500);
-		speed += 10;
+		speed = tmp?speed-1:speed+1;
+		if(speed>97)
+			tmp = 1;
+		if(speed<2)
+			tmp = 0;
 		PwmMotor.setSpeed( (speed)%100 );
 
 	}
